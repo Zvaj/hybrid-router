@@ -7,3 +7,6 @@
 {"timestamp": "2026-04-24T15:34:22.011718", "mode": "dry_run", "domains": ["calculus", "ethics-course", "data-science-course"], "avg_classifier_accuracy": 0.937037037037037, "avg_tokens": 331.09999999999997, "total_cost": 0.1935}
 {"timestamp": "2026-04-24T15:36:25.575771", "mode": "dry_run", "domains": ["calculus", "ethics-course", "data-science-course"], "avg_classifier_accuracy": 0.937037037037037, "avg_tokens": 331.09999999999997, "total_cost": 0.1935}
 {"timestamp": "2026-04-24T15:43:32.127598", "mode": "live", "domains": ["calculus", "ethics-course", "data-science-course"], "avg_classifier_accuracy": 1.0, "avg_tokens": 292.1333333333333, "total_cost": 0.1877}
+{"timestamp": "2026-04-24T16:11:32.063397", "mode": "dry_run", "domains": ["calculus", "ethics-course", "data-science-course"], "avg_classifier_accuracy": 0.937037037037037, "avg_tokens": 480.56666666666666, "total_cost": 0.2147}
+{"timestamp": "2026-04-24T16:14:40.932834", "mode": "dry_run", "domains": ["calculus", "ethics-course", "data-science-course"], "avg_classifier_accuracy": 0.937037037037037, "avg_tokens": 480.56666666666666, "total_cost": 0.2147}
+{"timestamp": "2026-04-24T16:23:26.187355", "mode": "live", "domains": ["calculus", "ethics-course", "data-science-course"], "avg_classifier_accuracy": 1.0, "avg_tokens": 410.0, "total_cost": 0.2046}
