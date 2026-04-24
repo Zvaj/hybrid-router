@@ -42,24 +42,28 @@ The RAG backend loads all `.md` files from `data/<domain>/chapters/`, splits the
 
 | Metric | Hybrid | RAG (paper) | CKG (paper) |
 |--------|--------|-------------|-------------|
-| Avg tokens/query | 486 | 2,982 | 269 |
-| Token reduction | 83.7% | — | — |
+| Avg tokens/query | 580 | 2,982 | 269 |
+| Token reduction | 80.6% | — | — |
 | Classifier accuracy | 100% | — | — |
-| Avg F1 | 0.0875 | 0.1231 | 0.4709 |
-| RDS | 0.00232 | 0.0000482 | 0.00201 |
-| RDS vs RAG | 48.1x | 1x | 41.7x |
+| CKG routing rate | 61.1% | — | — |
+| Fallback rate | 0% | — | — |
+| Avg F1 | 0.1317 | 0.1231 | 0.4709 |
+| RDS | 0.00485 | 0.0000482 | 0.00201 |
+| RDS vs RAG | 100.7x | 1x | 41.7x |
 
 ### 3-Domain Validation
 
 | Metric | Calculus | Ethics | Data Science | Average |
 |--------|----------|--------|--------------|---------|
 | Classifier acc. | 100% | 100% | 100% | 100% |
-| Avg tokens/query | 486 | 188 | 203 | 292 |
-| Token reduction | 83.7% | 93.7% | 93.2% | 90.2% |
-| Avg F1 | 0.0875 | 0.1698 | 0.2113 | 0.1562 |
-| RDS | 0.00232 | 0.00723 | 0.00898 | 0.00618 |
-| RDS vs RAG | 48.1x | 150.1x | 186.4x | 128.2x |
-| Est. cost | $0.080 | $0.053 | $0.054 | $0.19 |
+| Avg tokens/query | 580 | 330 | 320 | 410 |
+| Token reduction | 80.6% | 88.9% | 89.3% | 86.3% |
+| CKG routing rate | 61.1% | 66.7% | 66.7% | 64.8% |
+| Fallback rate | 0% | 0% | 0% | 0% |
+| Avg F1 | 0.1317 | 0.1671 | 0.2115 | 0.1701 |
+| RDS | 0.00485 | 0.00695 | 0.00915 | 0.00699 |
+| RDS vs RAG | 100.7x | 144.2x | 189.8x | 144.9x |
+| Est. cost | $0.085 | $0.060 | $0.059 | $0.205 |
 
 ### Comparison to Paper Baselines (Table 7)
 
@@ -67,9 +71,9 @@ The RAG backend loads all `.md` files from `data/<domain>/chapters/`, splits the
 |--------|-----|--------|
 | RAG (paper) | 0.0000482 | 1x |
 | CKG (paper) | 0.00201 | 41.7x |
-| **Hybrid (this work)** | **0.00618** | **128.2x** |
+| **Hybrid (this work)** | **0.00699** | **144.9x** |
 
-The hybrid router achieves 128.2x RDS vs pure RAG and 3.1x better RDS than the paper's pure CKG baseline. Tested across 3 domains (STEM, Foundational, Professional), 48 total queries, 100% classifier accuracy, 90.2% average token reduction.
+The hybrid router achieves 144.9x RDS vs pure RAG and 3.5x better RDS than the paper's pure CKG baseline. Tested across 3 domains (STEM, Foundational, Professional): 48 total queries, 100% classifier accuracy, 0% fallback rate, 86.3% average token reduction.
 
 **Note on F1 scores:** The paper's RAG baseline indexed full MkDocs textbook chapters of several thousand words per topic. This implementation uses shorter synthetic prose chapters (300–500 words each). The lower F1 reflects shorter retrieval context, not a flaw in routing logic. F1 would improve proportionally with full-corpus indexing. The RDS advantage is independent of this: it reflects structural routing efficiency, which holds regardless of prose chapter length.
 
