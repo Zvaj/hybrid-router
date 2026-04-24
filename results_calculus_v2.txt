@@ -1,0 +1,324 @@
+╔══════════════════════════════════════════╗
+║      HYBRID CKG + RAG ROUTER             ║
+║  Yarmoluk & McCreary (2026) — Future Work║
+╚══════════════════════════════════════════╝
+Domain: calculus | Mode: LIVE
+Time: 2026-04-24 14:49:05
+
+CKG loaded: 380 concepts, 538 edges
+CKG loaded in 0.0s
+RAG index built: 2 chunks
+RAG built in 4.3s
+
+┌─────────────────────────────────────────────┐
+│ Query: What is a derivative?
+│ Expected: T1 | Got: T1 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ A derivative is a mathematical concept that measures the **instantaneous rate of change** of a function at a specific point. Think of it as capturing exactly how fast something is changing at a precise moment in time.
+
+## Intuitive Understanding
+
+The best way to understand derivatives is through the
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Explain what a limit is in calculus
+│ Expected: T1 | Got: T1 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ A limit in calculus is a fundamental concept that describes the value a function approaches as its input gets arbitrarily close to some specific point—without necessarily ever reaching that point.
+
+## Formal Definition
+
+We write this as: **lim(x→a) f(x) = L**
+
+This notation means: "As x approaches t
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: How does the chain rule work?
+│ Expected: T1 | Got: T1 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ The chain rule is a fundamental technique for finding the derivative of composite functions - functions that are "built" by combining simpler functions together.
+
+## What is a Composite Function?
+
+A composite function has the form h(x) = f(g(x)), where you:
+1. First apply the inner function g(x)
+2. 
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: What is the fundamental theorem of calculus?
+│ Expected: T1 | Got: T1 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ The Fundamental Theorem of Calculus is the most profound and unifying result in calculus. It reveals that differentiation and integration—which might seem like completely different operations—are actually inverse processes. The theorem has two parts:
+
+## Part 1: The Derivative of an Integral
+If you 
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: What are the prerequisites for learning the chain rule?
+│ Expected: T2 | Got: T2 ✓
+│ Routed to: CKG
+│ Context tokens: 24 (saved 2958 vs RAG baseline)
+│ Est. cost: $0.00307
+│ F1: 0.1096
+├─────────────────────────────────────────────┤
+│ The prerequisites for learning the Chain Rule, ordered from most foundational to most advanced, are:
+
+1. **Function** - Basic understanding of functions
+2. **Function Notation** - How to write and read function notation
+3. **Composite Function** - Functions composed of other functions
+4. **Limit Def
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: What do I need to know before studying implicit differentiation?
+│ Expected: T2 | Got: T2 ✓
+│ Routed to: CKG
+│ Context tokens: 27 (saved 2955 vs RAG baseline)
+│ Est. cost: $0.00308
+│ F1: 0.0690
+├─────────────────────────────────────────────┤
+│ To study Implicit Differentiation, you need to understand these concepts in the following order (from most foundational to most advanced):
+
+1. **Function** - The basic concept of mathematical functions
+2. **Function Notation** - How to properly write and read function notation
+3. **Composite Functio
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Prerequisites for understanding Taylor Series?
+│ Expected: T2 | Got: T2 ✓
+│ Routed to: RAG (CKG fallback)
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: 0.0335
+├─────────────────────────────────────────────┤
+│ Based on the reference material provided, I can identify several key prerequisites for understanding Taylor series, though I should note that Taylor series themselves aren't covered in the given context. Let me outline what you'll need:
+
+## Essential Prerequisites from the Reference Material:
+
+### 1
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: What is the learning path from Function to Chain Rule?
+│ Expected: T3 | Got: T3 ✓
+│ Routed to: CKG
+│ Context tokens: 17 (saved 2965 vs RAG baseline)
+│ Est. cost: $0.00305
+│ F1: 0.1538
+├─────────────────────────────────────────────┤
+│ Based on the knowledge graph, the learning path from Function to Chain Rule is:
+
+1. **Function** (most foundational)
+2. **Composite Function** 
+3. **Chain Rule** (most advanced)
+
+This path shows that you need to first understand what a Function is, then learn about Composite Functions (functions com
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Path from Function to Taylor Series?
+│ Expected: T3 | Got: T3 ✓
+│ Routed to: RAG (CKG fallback)
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: 0.0857
+├─────────────────────────────────────────────┤
+│ Great question! The path from a basic function to its Taylor series is a beautiful journey that builds on the fundamental concepts we've discussed. Let me walk you through this step by step.
+
+## The Motivation: Approximating Functions with Polynomials
+
+The goal of a Taylor series is to represent a f
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: List all foundational concepts in this course
+│ Expected: T4 | Got: T4 ✓
+│ Routed to: CKG
+│ Context tokens: 51 (saved 2931 vs RAG baseline)
+│ Est. cost: $0.00315
+│ F1: 0.1136
+├─────────────────────────────────────────────┤
+│ Based on the knowledge graph, here are the foundational concepts listed from most foundational to most advanced:
+
+**Most Foundational:**
+1. Real Numbers
+2. Number Line
+3. Coordinate System
+
+**Core Function Concepts:**
+4. Function
+5. Domain and Range
+6. Function Notation
+
+**Function Analysis:**
+7. Gr
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Show me all the core calculus topics
+│ Expected: T4 | Got: T4 ✓
+│ Routed to: CKG
+│ Context tokens: 421 (saved 2561 vs RAG baseline)
+│ Est. cost: $0.00426
+│ F1: 0.0552
+├─────────────────────────────────────────────┤
+│ Based on the knowledge graph, here are all the core calculus topics organized from most foundational to most advanced:
+
+## Foundational Concepts
+- **Limit** - The fundamental concept underlying all of calculus
+- **Intuitive Limit** - Understanding limits conceptually
+- **Limit Notation** - Mathemati
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: How does the chain rule relate to composite functions?
+│ Expected: T5 | Got: T5 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ The chain rule is specifically designed to handle **composite functions** - functions that are built by combining simpler functions together. Let me explain this relationship clearly.
+
+## What are Composite Functions?
+
+A composite function has the form **h(x) = f(g(x))**, which means:
+- You start wi
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: What is the connection between limits and derivatives?
+│ Expected: T5 | Got: T5 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ The connection between limits and derivatives is fundamental - **derivatives are actually defined using limits**. Let me explain this crucial relationship.
+
+## Derivatives ARE Limits
+
+A derivative isn't just related to limits; it literally *is* a limit. Specifically, the derivative of a function f(x
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: What comes after understanding limits?
+│ Expected: T2 | Got: T2 ✓
+│ Routed to: CKG
+│ Context tokens: 16 (saved 2966 vs RAG baseline)
+│ Est. cost: $0.00305
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ I can only provide information about the prerequisites that come before understanding limits based on the given knowledge graph data. The data shows that before studying limits, you need to understand these concepts in order from most foundational to most advanced:
+
+1. Number Line
+2. Real Numbers  
+
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: I know functions, what should I learn next?
+│ Expected: T2 | Got: T2 ✓
+│ Routed to: CKG
+│ Context tokens: 8 (saved 2974 vs RAG baseline)
+│ Est. cost: $0.00302
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ Based on the knowledge graph, I can see that "Function" is a foundational concept with no prerequisites listed. However, the graph data provided only shows prerequisites for the Function concept, not what comes after it.
+
+To give you a proper learning path from functions, I would need additional gra
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Walk me through the concepts between Function and Chain Rule
+│ Expected: T3 | Got: T3 ✓
+│ Routed to: CKG
+│ Context tokens: 17 (saved 2965 vs RAG baseline)
+│ Est. cost: $0.00305
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ Based on the knowledge graph, here are the concepts in order from most foundational to most advanced:
+
+1. **Function** - The foundational concept representing mathematical relationships between inputs and outputs
+
+2. **Composite Function** - Functions formed by combining two or more functions, where
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Give me all advanced topics
+│ Expected: T4 | Got: T4 ✓
+│ Routed to: CKG
+│ Context tokens: 515 (saved 2467 vs RAG baseline)
+│ Est. cost: $0.00455
+│ F1: 0.0820
+├─────────────────────────────────────────────┤
+│ Based on the knowledge graph, here are all the advanced calculus topics, organized from most foundational to most advanced:
+
+## Asymptotes and End Behavior
+- Asymptote
+- Vertical Asymptote
+- Horizontal Asymptote
+- Oblique Asymptote
+- Limit at Infinity
+- End Behavior
+- Behavior Near Asymptote
+- One-S
+└─────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────┐
+│ Query: Continuity
+│ Expected: T1 | Got: T1 ✓
+│ Routed to: RAG
+│ Context tokens: 844 (saved 2138 vs RAG baseline)
+│ Est. cost: $0.00553
+│ F1: N/A
+├─────────────────────────────────────────────┤
+│ # Continuity in Calculus
+
+## What is Continuity?
+
+Continuity describes when a function has no "breaks," "jumps," or "holes" in its graph. Intuitively, a function is continuous at a point if you can draw its graph through that point without lifting your pencil from the paper.
+
+As mentioned in your re
+└─────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════╗
+║                 HYBRID ROUTER RESULTS                       ║
+╠══════════════════════╦═══════════╦══════════╦═══════════════╣
+║ Metric               ║  Hybrid   ║ RAG*     ║ CKG*          ║
+╠══════════════════════╬═══════════╬══════════╬═══════════════╣
+║ Classifier accuracy  ║   100.0%  ║          ║               ║
+║ Avg tokens/query     ║     482.9 ║     2982 ║           269 ║
+║ Token reduction %    ║    83.8%  ║          ║               ║
+║ CKG routing rate %   ║    50.0%  ║          ║               ║
+║ Fallback rate %      ║    11.1%  ║          ║               ║
+║ Avg F1 (scored)      ║    0.0878 ║   0.1231 ║        0.4709 ║
+║ RDS                  ║ 0.00235374 ║  4.82e-5 ║       0.00201 ║
+║ RDS vs pure RAG      ║     48.8x  ║     1.0x ║        41.7x  ║
+║ Total est. cost      ║ $  0.0801 ║          ║               ║
+╚══════════════════════╩═══════════╩══════════╩═══════════════╝
+* Paper baselines from Table 7, Yarmoluk & McCreary (2026)
+Classifier: 16 keyword, 2 LLM fallback, 0 default
+Results saved to results.json
+Run logged to run_log.jsonl
