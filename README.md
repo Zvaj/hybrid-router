@@ -53,23 +53,44 @@ cp ckg-benchmark/benchmark/domains/calculus/learning-graph.csv \
    data/calculus/
 ```
 
-## Results — calculus domain
+## Results — single domain (calculus)
 
 | Metric | Hybrid | RAG (paper) | CKG (paper) |
 |--------|--------|-------------|-------------|
-| Avg tokens/query | TBD | 2,982 | 269 |
-| Avg F1 | TBD | 0.1231 | 0.4709 |
-| RDS | TBD | 0.0000482 | 0.00201 |
-| RDS vs RAG | TBD | 1x | 42x |
+| Avg tokens/query | 486 | 2,982 | 269 |
+| Token reduction | 83.7% | — | — |
+| Classifier accuracy | 100% | — | — |
+| Avg F1 | 0.0875 | 0.1231 | 0.4709 |
+| RDS | 0.00232 | 0.0000482 | 0.00201 |
+| RDS vs RAG | 48.1x | 1x | 41.7x |
 
-*Results will be updated after first run*
+## Results — 3 domains (live run)
+
+| Metric | Calculus | Ethics | Data Science | Average |
+|--------|----------|--------|--------------|---------|
+| Classifier acc. | 100% | 100% | 100% | 100% |
+| Avg tokens/query | 486 | 188 | 203 | 292 |
+| Token reduction | 83.7% | 93.7% | 93.2% | 90.2% |
+| Avg F1 | 0.0875 | 0.1698 | 0.2113 | 0.1562 |
+| RDS | 0.00232 | 0.00723 | 0.00898 | 0.00618 |
+| RDS vs RAG | 48.1x | 150.1x | 186.4x | 128.2x |
+| Cost | $0.080 | $0.053 | $0.054 | $0.19 total |
+
+**Paper baselines (Table 7, Yarmoluk & McCreary 2026):**
+RAG RDS: 0.0000482 (1x) · CKG RDS: 0.00201 (41.7x) · **Hybrid RDS: 0.00618 (128.2x)**
+
+Tested across 3 domains (STEM, Foundational, Professional).
+48 total queries — 100% classifier accuracy.
+90.2% average token reduction vs RAG baseline.
+128.2x average RDS improvement vs pure RAG.
+3.1x better RDS than paper's pure CKG baseline.
 
 ## Cost
 
-| Run | Estimated cost |
-|-----|---------------|
-| Single domain (18 queries) | ~$0.12 |
-| Three domains (~54 queries) | ~$0.40 |
+| Run | Actual cost |
+|-----|-------------|
+| Single domain (18 queries) | $0.080 |
+| Three domains (48 queries) | $0.19 |
 | Full 44 domains (~7,758 queries) | ~$27-35 |
 
 ## Scaling to full corpus
