@@ -82,6 +82,7 @@ def classify_query(query, use_llm_fallback=True):
         message = client.messages.create(
             model="claude-sonnet-4-20250514",
             max_tokens=10,
+            temperature=0,
             messages=[{"role": "user", "content": prompt}],
         )
         result = message.content[0].text.strip().upper()
