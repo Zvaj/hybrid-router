@@ -39,14 +39,14 @@ The contribution of this work is the combination of: (1) a lightweight two-stage
 
 ### 3.1 System Overview
 
-The hybrid router consists of three components operating in sequence. First, the query classifier assigns an incoming natural-language query to one of five structural types (T1–T5) using a two-stage approach that begins with a zero-cost keyword pre-filter and escalates to an LLM call only for ambiguous queries. Second, the routing logic dispatches T2, T3, and T4 queries — all structural — to the CKG backend, and T1 and T5 queries — definitional and relational — to the RAG backend. If the CKG backend cannot locate a referenced concept, it falls back to RAG. Third, both backends produce a context string that is passed to `claude-sonnet-4-20250514` for answer generation, along with a source label that is recorded in the result for auditing.
+The hybrid router consists of three components operating in sequence. First, the query classifier assigns an incoming natural-language query to one of five structural types (T1–T5) using a two-stage approach that begins with a zero-cost keyword pre-filter and escalates to an LLM call only for ambiguous queries. Second, the routing logic dispatches T2, T3, and T4 queries — all structural — to the CKG backend, and T1 and T5 queries — definitional and relational — to the RAG backend. If the CKG backend cannot locate a referenced concept, it falls back to RAG. Third, both backends produce a context string that is passed to `claude-sonnet-4-6` for answer generation, along with a source label that is recorded in the result for auditing.
 
 ```
 User Query
     ↓
 Query Classifier
 ├── Stage 1: Keyword pre-filter (no API call)
-└── Stage 2: LLM fallback (claude-sonnet-4-20250514)
+└── Stage 2: LLM fallback (claude-sonnet-4-6)
     ↓               ↓
 T2 / T3 / T4    T1 / T5
 (structural)    (explanatory)
@@ -58,7 +58,7 @@ BFS/DFS on DAG  Embedding search
     └───────┬────────┘
             ↓
     LLM Generation
-    (claude-sonnet-4-20250514)
+    (claude-sonnet-4-6)
             ↓
     Answer + Source Label
     (CKG / RAG / RAG fallback)
@@ -101,7 +101,7 @@ T5_KEYWORDS = [
 
 Matching logic: the classifier counts keyword hits per type across the lowercased query. If any type accumulates two or more hits, that type wins immediately. If exactly one type has one hit and all others have zero, that type wins. In both cases the result is returned with no API call. If the result is ambiguous — zero total hits, or more than one type with exactly one hit — the query falls through to Stage 2.
 
-Stage 2 fires only for ambiguous queries. It sends the query to `claude-sonnet-4-20250514` with the following prompt, capped at `max_tokens=10` to return a single token response:
+Stage 2 fires only for ambiguous queries. It sends the query to `claude-sonnet-4-6` with the following prompt, capped at `max_tokens=10` to return a single token response:
 
 ```
 Classify this query into exactly one type:
@@ -206,9 +206,15 @@ Paper baselines from Table 7: RAG RDS = 0.0000482; CKG RDS = 0.00201; GraphRAG R
 | sentence-transformers | 5.4.1 |
 | numpy | 2.4.4 |
 | python-dotenv | 1.1.0 |
-| LLM model | claude-sonnet-4-20250514 |
+| sonnet baseline | claude-sonnet-4-6 |
 | Temperature | 0 |
 | Random seed | 42 |
+
+> **Note:** Earlier runs in this project used
+> `claude-sonnet-4-20250514` (Claude Sonnet 4).
+> All model comparison results use the corrected
+> current-generation IDs: `claude-sonnet-4-6`,
+> `claude-haiku-4-5-20251001`, and `claude-opus-4-7`.
 
 All three domains use an identical classifier, CKG backend, RAG backend, and evaluation harness with no domain-specific tuning of any kind.
 

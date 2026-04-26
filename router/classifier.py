@@ -47,7 +47,9 @@ _TYPE_KEYWORDS = {
 _VALID_TYPES = {"T1", "T2", "T3", "T4", "T5"}
 
 
-def classify_query(query, use_llm_fallback=True):
+def classify_query(query,
+                   use_llm_fallback=True,
+                   model="claude-sonnet-4-6"):
     q = query.lower()
 
     counts = {t: sum(1 for kw in kws if kw in q) for t, kws in _TYPE_KEYWORDS.items()}
@@ -79,12 +81,16 @@ def classify_query(query, use_llm_fallback=True):
             f"Query: {query}\n"
             "Reply with only the type code: T1, T2, T3, T4, or T5"
         )
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=10,
-            temperature=0,
-            messages=[{"role": "user", "content": prompt}],
-        )
+        # Build kwargs — omit temperature for Opus 4.7
+        # which uses adaptive thinking and rejects it
+        api_kwargs = {
+            "model": model,
+            "max_tokens": 10,
+            "messages": [{"role": "user", "content": prompt}],
+        }
+        if model != "claude-opus-4-7":
+            api_kwargs["temperature"] = 0
+        message = client.messages.create(**api_kwargs)
         result = message.content[0].text.strip().upper()
         if result not in _VALID_TYPES:
             CLASSIFIER_STATS["default"] += 1

@@ -1,0 +1,95 @@
+╔══════════════════════════════════════════╗
+║   MULTI-DOMAIN HYBRID CKG + RAG ROUTER   ║
+║  Yarmoluk & McCreary (2026) — Future Work║
+╚══════════════════════════════════════════╝
+Mode: LIVE
+Domains: calculus, ethics-course, data-science-course
+Model: haiku (claude-haiku-4-5-20251001)
+Time: 2026-04-25 22:07:48
+
+Running domain 1/3: Calculus...
+CKG loaded: 380 concepts, 538 edges
+RAG index built: 4 chunks
+─────────────────────────────────
+Domain: Calculus (STEM)
+Queries: 18
+Classifier accuracy: 100.0%
+Avg tokens: 579.6 (80.6% reduction)
+CKG routing rate: 61.1%
+Avg F1: 0.1187
+RDS: 0.00443895 (92.1x vs RAG)
+Est. cost: $0.0853
+─────────────────────────────────
+
+Running domain 2/3: Ethics...
+CKG loaded: 250 concepts, 405 edges
+RAG index built: 6 chunks
+─────────────────────────────────
+Domain: Ethics (Foundational)
+Queries: 15
+Classifier accuracy: 100.0%
+Avg tokens: 330.2 (88.9% reduction)
+CKG routing rate: 66.7%
+Avg F1: 0.1075
+RDS: 0.00458055 (95.0x vs RAG)
+Est. cost: $0.0599
+─────────────────────────────────
+
+Running domain 3/3: Data Science...
+CKG loaded: 300 concepts, 439 edges
+RAG index built: 6 chunks
+─────────────────────────────────
+Domain: Data Science (Professional)
+Queries: 15
+Classifier accuracy: 100.0%
+Avg tokens: 320.2 (89.3% reduction)
+CKG routing rate: 66.7%
+Avg F1: 0.1377
+RDS: 0.00736308 (152.8x vs RAG)
+Est. cost: $0.0594
+─────────────────────────────────
+
+╔══════════════════════════════════════════════════════════════════╗
+║          3-DOMAIN HYBRID ROUTER RESULTS                         ║
+║      Yarmoluk & McCreary (2026) — Future Work Implementation    ║
+╠══════════════════════╦══════════╦══════════╦══════════╦═════════╣
+║ Metric               ║ Calculus ║ Ethics   ║ DataSci  ║ Average ║
+║                      ║ (STEM)   ║ (Found.) ║ (Prof.)  ║         ║
+╠══════════════════════╬══════════╬══════════╬══════════╬═════════╣
+║ Classifier acc.      ║   100.0% ║   100.0% ║   100.0% ║ 100.0%  ║
+║ Avg tokens/query     ║      580 ║      330 ║      320 ║    410  ║
+║ Token reduction      ║    80.6% ║    88.9% ║    89.3% ║  86.3%  ║
+║ CKG routing rate     ║    61.1% ║    66.7% ║    66.7% ║  64.8%  ║
+║ Fallback rate        ║     0.0% ║     0.0% ║     0.0% ║   0.0%  ║
+║ Avg F1 (scored)      ║   0.1187 ║   0.1075 ║   0.1377 ║  0.1213 ║
+║ RDS                  ║ 4.44e-03 ║ 4.58e-03 ║ 7.36e-03 ║5.46e-03 ║
+║ RDS vs pure RAG      ║    92.1x ║    95.0x ║   152.8x ║ 113.3x  ║
+║ Est. cost            ║  $0.0853 ║  $0.0599 ║  $0.0594 ║ $0.2046 ║
+╠══════════════════════╬══════════╬══════════╬══════════╬═════════╣
+║ Paper RAG RDS        ║ 0.0000482║ 0.0000482║ 0.0000482║0.0000482║
+║ Paper CKG RDS        ║ 0.00201  ║ 0.00201  ║ 0.00201  ║ 0.00201 ║
+╚══════════════════════╩══════════╩══════════╩══════════╩═════════╝
+* Baselines from Table 7, Yarmoluk & McCreary (2026)
+
+═══════════════════════════════════════
+CONTRIBUTION TO YARMOLUK & MCCREARY (2026)
+═══════════════════════════════════════
+This hybrid router implements the future work item:
+'Hybrid architectures combining CKG structural
+ precision with RAG prose retrieval for T1/T5'
+
+Tested across 3 domains covering all 3 corpus
+categories: STEM, Foundational, Professional
+Total queries evaluated: 48
+Average classifier accuracy: 100.0%
+Average token reduction: 86.3% vs RAG
+Average RDS improvement: 113.3x vs pure RAG
+
+To run across all 44 domains:
+python run_multi.py --all-domains
+  --benchmark-dir /path/to/ckg-benchmark
+
+Results saved to results_3domains_haiku.json
+Run logged to run_log.jsonl
+
+Total cost all domains: $0.2046

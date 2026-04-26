@@ -14,7 +14,7 @@ This router classifies every incoming query by type and dispatches it to the app
 
 ### Query Classifier
 
-The classifier uses a two-stage approach. Stage 1 is a keyword pre-filter that runs free (no API call) and catches approximately 80% of queries by counting keyword matches against type-specific lists. When exactly one type accumulates more than one match, that type wins immediately. Stage 2 fires only for ambiguous queries — it sends the query to `claude-sonnet-4-20250514` with a structured prompt and parses the single-token response.
+The classifier uses a two-stage approach. Stage 1 is a keyword pre-filter that runs free (no API call) and catches approximately 80% of queries by counting keyword matches against type-specific lists. When exactly one type accumulates more than one match, that type wins immediately. Stage 2 fires only for ambiguous queries — it sends the query to `claude-sonnet-4-6` with a structured prompt and parses the single-token response.
 
 | Type | Description | Routes to | Why |
 |------|-------------|-----------|-----|
@@ -139,7 +139,7 @@ For domains without synthetic prose chapters, the `auto_generate_queries()` func
 1. **F1 reflects synthetic chapters.** The paper's RAG indexed full MkDocs textbooks; this uses shorter synthetic prose. F1 would improve with full corpus content.
 2. **Ground truth derived from the same DAG as CKG.** Structural query evaluation (T2/T3/T4) measures exact match against BFS traversal results — the same limitation applies to the original paper.
 3. **Tested on 3 of 44 domains.** Macro-average across all 44 domains is pending full corpus run.
-4. **Model:** All results use `claude-sonnet-4-20250514`. Other models have not been tested.
+4. **Model:** All results use `claude-sonnet-4-6`. Other models (`claude-haiku-4-5-20251001`, `claude-opus-4-7`) are supported via `--model` flag but not benchmarked.
 
 ## Contributing
 

@@ -9,7 +9,7 @@ load_dotenv()
 from backends.ckg import CKGBackend
 from backends.rag import RAGBackend
 from router.classifier import classify_query, CLASSIFIER_STATS
-from router.hybrid import route
+from router.hybrid import route, MODEL_SHORTCUTS, DEFAULT_MODEL
 from evaluation.queries import TEST_QUERIES
 from evaluation.score import (token_f1, compute_rds,
                                classifier_accuracy, routing_stats)
@@ -23,15 +23,22 @@ def parse_args():
                         help="Which domain to use")
     parser.add_argument("--no-cache", action="store_true",
                         help="Bypass result cache")
+    parser.add_argument(
+        '--model',
+        default='sonnet',
+        choices=['haiku', 'sonnet', 'opus'],
+        help='Model tier: haiku, sonnet, or opus'
+    )
     return parser.parse_args()
 
 
-def print_header(domain, dry_run):
+def print_header(domain, dry_run, model_short, model_full):
     print("╔══════════════════════════════════════════╗")
     print("║      HYBRID CKG + RAG ROUTER             ║")
     print("║  Yarmoluk & McCreary (2026) — Future Work║")
     print("╚══════════════════════════════════════════╝")
     print(f"Domain: {domain} | Mode: {'DRY RUN' if dry_run else 'LIVE'}")
+    print(f"Model: {model_short} ({model_full})")
     print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print()
 
@@ -79,7 +86,8 @@ def print_summary(stats, classifier_acc):
 
 def main():
     args = parse_args()
-    print_header(args.domain, args.dry_run)
+    model_name = MODEL_SHORTCUTS.get(args.model, DEFAULT_MODEL)
+    print_header(args.domain, args.dry_run, args.model, model_name)
 
     base = os.path.dirname(os.path.abspath(__file__))
     csv_path = os.path.join(base, "data", args.domain, "learning-graph.csv")
@@ -105,8 +113,16 @@ def main():
         expected = test["expected_type"]
         ground_truth = test.get("ground_truth")
 
-        query_type = classify_query(query, use_llm_fallback=not args.dry_run)
-        result = route(query, query_type, ckg, rag, args.dry_run)
+        query_type = classify_query(
+            query,
+            use_llm_fallback=not args.dry_run,
+            model=model_name
+        )
+        result = route(
+            query, query_type, ckg, rag,
+            args.dry_run,
+            model=model_name
+        )
         result["expected_type"] = expected
 
         f1 = token_f1(result["answer"], ground_truth)
@@ -132,9 +148,10 @@ def main():
         "queries": results,
     }
 
-    with open("results.json", "w") as f:
+    results_file = f"results_{args.domain}_{args.model}.json"
+    with open(results_file, "w") as f:
         json.dump(output, f, indent=2)
-    print("Results saved to results.json")
+    print(f"Results saved to {results_file}")
 
     log_entry = {
         "timestamp": datetime.now().isoformat(),

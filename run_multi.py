@@ -11,7 +11,7 @@ load_dotenv()
 from backends.ckg import CKGBackend
 from backends.rag import RAGBackend
 from router.classifier import classify_query, CLASSIFIER_STATS
-from router.hybrid import route
+from router.hybrid import route, MODEL_SHORTCUTS, DEFAULT_MODEL
 from evaluation.score import (token_f1, compute_rds,
                                classifier_accuracy,
                                routing_stats)
@@ -47,7 +47,8 @@ PAPER_BASELINES = {
 }
 
 
-def run_domain(domain_key, dry_run=False):
+def run_domain(domain_key, dry_run=False,
+               model=DEFAULT_MODEL):
     config = DOMAIN_CONFIGS.get(domain_key)
     if not config:
         print(f"ERROR: unknown domain '{domain_key}'")
@@ -74,8 +75,16 @@ def run_domain(domain_key, dry_run=False):
 
     results = []
     for test in queries:
-        query_type = classify_query(test["query"], use_llm_fallback=not dry_run)
-        result = route(test["query"], query_type, ckg, rag, dry_run)
+        query_type = classify_query(
+            test["query"],
+            use_llm_fallback=not dry_run,
+            model=model
+        )
+        result = route(
+            test["query"], query_type,
+            ckg, rag, dry_run,
+            model=model
+        )
         result["expected_type"] = test["expected_type"]
         result["f1"] = token_f1(result["answer"], test.get("ground_truth"))
         results.append(result)
@@ -106,6 +115,7 @@ def run_domain(domain_key, dry_run=False):
         "query_results": results,
         "ckg_load_time": round(ckg_load_time, 2),
         "rag_load_time": round(rag_load_time, 2),
+        "model": model,
     }
 
 
@@ -297,7 +307,14 @@ def main():
     parser.add_argument("--benchmark-dir",
                         default=os.path.expanduser("~/Documents/ckg-benchmark"),
                         help="Path to full benchmark corpus")
+    parser.add_argument(
+        '--model',
+        default='sonnet',
+        choices=['haiku', 'sonnet', 'opus'],
+        help='Model tier: haiku, sonnet, or opus'
+    )
     args = parser.parse_args()
+    model_name = MODEL_SHORTCUTS.get(args.model, DEFAULT_MODEL)
 
     mode = "DRY RUN" if args.dry_run else "LIVE"
     domains = args.domains
@@ -307,6 +324,7 @@ def main():
     print("╚══════════════════════════════════════════╝")
     print(f"Mode: {mode}")
     print(f"Domains: {', '.join(domains)}")
+    print(f"Model: {args.model} ({model_name})")
     print(f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     all_results = []
@@ -316,7 +334,10 @@ def main():
         cfg = DOMAIN_CONFIGS.get(domain, {})
         display = cfg.get("display_name", domain)
         print(f"\nRunning domain {i+1}/{total_domains}: {display}...")
-        result = run_domain(domain, args.dry_run)
+        result = run_domain(
+            domain, args.dry_run,
+            model=model_name
+        )
         if result:
             print_domain_summary(result)
             all_results.append(result)
@@ -335,9 +356,10 @@ def main():
             "classifier_stats": dict(CLASSIFIER_STATS),
             "domains": all_results,
         }
-        with open("results_3domains.json", "w") as f:
+        results_file = f"results_3domains_{args.model}.json"
+        with open(results_file, "w") as f:
             json.dump(output, f, indent=2)
-        print("\nResults saved to results_3domains.json")
+        print(f"\nResults saved to {results_file}")
 
         # Append log entry
         log_entry = {

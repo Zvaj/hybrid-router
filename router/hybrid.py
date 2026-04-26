@@ -5,6 +5,14 @@ import os
 from backends.ckg import CKGBackend
 from backends.rag import RAGBackend
 
+DEFAULT_MODEL = "claude-sonnet-4-6"
+
+MODEL_SHORTCUTS = {
+    "haiku":  "claude-haiku-4-5-20251001",
+    "sonnet": "claude-sonnet-4-6",
+    "opus":   "claude-opus-4-7",
+}
+
 CKG_TYPES = {"T2", "T3", "T4"}
 RAG_TYPES = {"T1", "T5"}
 
@@ -22,7 +30,8 @@ def format_rag_context(chunks):
     return "\n\n---\n\n".join(chunks)
 
 
-def call_llm(query, context, source):
+def call_llm(query, context, source,
+             model=DEFAULT_MODEL):
     if source == "CKG":
         retrieval_type = ""
         try:
@@ -60,24 +69,29 @@ def call_llm(query, context, source):
 
     try:
         client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=500,
-            temperature=0,
-            system=system,
-            messages=[
+        # Build kwargs — omit temperature for Opus 4.7
+        # which uses adaptive thinking and rejects it
+        api_kwargs = {
+            "model": model,
+            "max_tokens": 500,
+            "system": system,
+            "messages": [
                 {
                     "role": "user",
                     "content": f"Context:\n{context}\n\nQuestion: {query}",
                 }
             ],
-        )
+        }
+        if model != "claude-opus-4-7":
+            api_kwargs["temperature"] = 0
+        message = client.messages.create(**api_kwargs)
         return message.content[0].text.strip()
     except Exception as e:
         return f"[LLM error: {e}]"
 
 
-def route(query, query_type, ckg_backend, rag_backend, dry_run=False):
+def route(query, query_type, ckg_backend, rag_backend,
+          dry_run=False, model=DEFAULT_MODEL):
     if query_type in CKG_TYPES:
         retrieval = ckg_backend.retrieve(query, query_type)
         if retrieval is None:
@@ -100,9 +114,12 @@ def route(query, query_type, ckg_backend, rag_backend, dry_run=False):
     )
 
     if dry_run:
-        answer = f"[DRY RUN — {source} path — {context_tokens} tokens]"
+        answer = (
+            f"[DRY RUN — {source} path — "
+            f"{context_tokens} tokens — model: {model}]"
+        )
     else:
-        answer = call_llm(query, context, source)
+        answer = call_llm(query, context, source, model=model)
 
     return {
         "query": query,
