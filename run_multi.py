@@ -364,6 +364,7 @@ def main():
         # Append log entry
         log_entry = {
             "timestamp": datetime.now().isoformat(),
+            "model": args.model,
             "mode": "dry_run" if args.dry_run else "live",
             "domains": [r["domain"] for r in all_results],
             "avg_classifier_accuracy": sum(r["classifier_accuracy"] for r in all_results) / len(all_results),

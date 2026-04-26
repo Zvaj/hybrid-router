@@ -156,6 +156,7 @@ def main():
     log_entry = {
         "timestamp": datetime.now().isoformat(),
         "domain": args.domain,
+        "model": args.model,
         "mode": "dry_run" if args.dry_run else "live",
         **stats,
         "classifier_accuracy": acc,

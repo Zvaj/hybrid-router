@@ -215,6 +215,12 @@ Paper baselines from Table 7: RAG RDS = 0.0000482; CKG RDS = 0.00201; GraphRAG R
 > All model comparison results use the corrected
 > current-generation IDs: `claude-sonnet-4-6`,
 > `claude-haiku-4-5-20251001`, and `claude-opus-4-7`.
+> Researchers reproducing results today using
+> `claude-sonnet-4-6` may observe approximately 5-10%
+> variation in F1 and RDS values due to the model
+> generation difference. The architectural metrics
+> — token reduction, CKG routing rate, and fallback
+> rate — are model-independent and will be identical.
 
 All three domains use an identical classifier, CKG backend, RAG backend, and evaluation harness with no domain-specific tuning of any kind.
 
